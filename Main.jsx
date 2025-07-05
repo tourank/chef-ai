@@ -15,7 +15,7 @@ export default function Main() {
         setRecipe(recipeMarkdown)
     }
 
-    function addIngredient(formData) {
+    function addIngredient(event) {
         event.preventDefault()
         const formData = new FormData(event.target)
         const newIngredient = formData.get("ingredient")
