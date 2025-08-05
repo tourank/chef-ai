@@ -1,38 +1,34 @@
 import React from "react"
 import ReactMarkdown from "react-markdown"
+import NutritionInfo from "./NutritionInfo"
+import HeartIcon from "./HeartIcon"
+import { generateRecipeId, isRecipeFavorited, addToFavorites, removeFromFavorites } from "../utils/favorites"
 
 export default function ClaudeRecipe(props) {
     const [isFavorited, setIsFavorited] = React.useState(false)
     
     React.useEffect(() => {
-        const favorites = JSON.parse(localStorage.getItem('chefAiFavorites') || '[]')
         const recipeId = generateRecipeId(props.recipe)
-        setIsFavorited(favorites.some(fav => fav.id === recipeId))
+        setIsFavorited(isRecipeFavorited(recipeId))
     }, [props.recipe])
     
-    function generateRecipeId(recipe) {
-        return btoa(recipe.slice(0, 100)).replace(/[^a-zA-Z0-9]/g, '').slice(0, 20)
-    }
     
     function toggleFavorite() {
-        const favorites = JSON.parse(localStorage.getItem('chefAiFavorites') || '[]')
         const recipeId = generateRecipeId(props.recipe)
-        const recipeTitle = extractRecipeTitle(props.recipe)
         
         if (isFavorited) {
-            const updatedFavorites = favorites.filter(fav => fav.id !== recipeId)
-            localStorage.setItem('chefAiFavorites', JSON.stringify(updatedFavorites))
+            removeFromFavorites(recipeId)
             setIsFavorited(false)
         } else {
             const newFavorite = {
                 id: recipeId,
-                title: recipeTitle,
+                title: extractRecipeTitle(props.recipe),
                 recipe: props.recipe,
                 ingredients: props.ingredients || [],
+                nutrition: props.nutrition || null,
                 dateAdded: new Date().toISOString()
             }
-            favorites.push(newFavorite)
-            localStorage.setItem('chefAiFavorites', JSON.stringify(favorites))
+            addToFavorites(newFavorite)
             setIsFavorited(true)
         }
     }
@@ -121,17 +117,11 @@ export default function ClaudeRecipe(props) {
                     onClick={toggleFavorite}
                     aria-label={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
                 >
-                    <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path 
-                            d="M10 17.27L8.18 15.63C3.64 11.58 0.5 8.69 0.5 5.5C0.5 2.42 2.92 0 6 0C7.74 0 9.39 0.81 10 2.09C10.61 0.81 12.26 0 14 0C17.08 0 19.5 2.42 19.5 5.5C19.5 8.69 16.36 11.58 11.82 15.63L10 17.27Z" 
-                            fill={isFavorited ? '#D17557' : '#E5E7EB'}
-                            stroke={isFavorited ? '#D17557' : '#9CA3AF'}
-                            strokeWidth="1"
-                        />
-                    </svg>
+                    <HeartIcon filled={isFavorited} size={20} />
                 </button>
             </div>
             <ReactMarkdown>{props.recipe}</ReactMarkdown>
+            <NutritionInfo nutrition={props.nutrition} />
         </section>
     )
 }

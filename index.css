@@ -456,3 +456,90 @@ ul.ingredients-list > li {
         padding: 16px;
     }
 }
+
+/* Nutrition Info Styles */
+.nutrition-info {
+    margin-top: 24px;
+    padding: 20px;
+    background-color: #F9FAFB;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+}
+
+.nutrition-info h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.nutrition-info h3 svg {
+    color: #D17557;
+}
+
+.serving-info {
+    margin: 0 0 16px 0;
+    font-size: 0.875rem;
+    color: #6B7280;
+    font-style: italic;
+}
+
+.nutrition-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.nutrition-item {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 12px;
+    background-color: white;
+    border: 1px solid #E5E7EB;
+    border-radius: 6px;
+}
+
+.nutrient-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #6B7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 2px;
+}
+
+.nutrient-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.nutrition-note {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #E5E7EB;
+}
+
+.nutrition-note p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #9CA3AF;
+    text-align: center;
+}
+
+/* Responsive adjustments for nutrition display */
+@media (max-width: 640px) {
+    .nutrition-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .nutrition-info {
+        padding: 16px;
+        margin-top: 20px;
+    }
+}

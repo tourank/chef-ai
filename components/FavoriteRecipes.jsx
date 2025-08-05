@@ -1,18 +1,19 @@
 import React from "react"
 import ReactMarkdown from "react-markdown"
+import NutritionInfo from "./NutritionInfo"
+import { getFavorites, removeFromFavorites } from "../utils/favorites"
 
 export default function FavoriteRecipes() {
     const [favorites, setFavorites] = React.useState([])
     const [expandedRecipes, setExpandedRecipes] = React.useState(new Set())
     
     React.useEffect(() => {
-        const savedFavorites = JSON.parse(localStorage.getItem('chefAiFavorites') || '[]')
+        const savedFavorites = getFavorites()
         setFavorites(savedFavorites.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)))
     }, [])
     
     function removeFavorite(recipeId) {
-        const updatedFavorites = favorites.filter(fav => fav.id !== recipeId)
-        localStorage.setItem('chefAiFavorites', JSON.stringify(updatedFavorites))
+        const updatedFavorites = removeFromFavorites(recipeId)
         setFavorites(updatedFavorites)
         // Remove from expanded set if it was expanded
         setExpandedRecipes(prev => {
@@ -98,6 +99,7 @@ export default function FavoriteRecipes() {
                             {isExpanded && (
                                 <div className="favorite-recipe-content">
                                     <ReactMarkdown>{favorite.recipe}</ReactMarkdown>
+                                    <NutritionInfo nutrition={favorite.nutrition} />
                                 </div>
                             )}
                         </div>

@@ -2,23 +2,34 @@ import React from "react"
 import IngredientsList from "./components/IngredientsList"
 import ClaudeRecipe from "./components/ClaudeRecipe"
 import FavoriteRecipes from "./components/FavoriteRecipes"
+import HeartIcon from "./components/HeartIcon"
 import { getRecipeFromChefClaude} from "./ai"
+import { getNutritionForIngredients } from "./usda-api"
 
 
 export default function Main() {
     const [ingredients, setIngredients] = React.useState([])
     const [recipe, setRecipe] = React.useState("")
+    const [nutrition, setNutrition] = React.useState(null)
     const [currentView, setCurrentView] = React.useState("generate") // "generate" or "favorites"
     const [isLoading, setIsLoading] = React.useState(false)
 
     async function getRecipe() {
         setIsLoading(true)
         try {
-            const recipeMarkdown = await getRecipeFromChefClaude(ingredients)
+            // Generate recipe and fetch nutrition data in parallel for better performance
+            const [recipeMarkdown, recipeNutrition] = await Promise.all([
+                getRecipeFromChefClaude(ingredients),
+                getNutritionForIngredients(ingredients)
+            ])
+            
             setRecipe(recipeMarkdown)
+            setNutrition(recipeNutrition)
+            
         } catch (error) {
             console.error('Error generating recipe:', error)
             setRecipe("Sorry, there was an error generating your recipe. Please try again.")
+            setNutrition(null)
         } finally {
             setIsLoading(false)
         }
@@ -53,12 +64,7 @@ export default function Main() {
                 >
                     <span className="nav-btn-content">
                         Favorites
-                        <svg width="16" height="14" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path 
-                                d="M10 17.27L8.18 15.63C3.64 11.58 0.5 8.69 0.5 5.5C0.5 2.42 2.92 0 6 0C7.74 0 9.39 0.81 10 2.09C10.61 0.81 12.26 0 14 0C17.08 0 19.5 2.42 19.5 5.5C19.5 8.69 16.36 11.58 11.82 15.63L10 17.27Z" 
-                                fill="currentColor"
-                            />
-                        </svg>
+                        <HeartIcon size={16} filledColor="currentColor" />
                     </span>
                 </button>
             </nav>
@@ -89,7 +95,7 @@ export default function Main() {
                         />
                     }
 
-                    {recipe && !isLoading && <ClaudeRecipe recipe={recipe} ingredients={ingredients} />}
+                    {recipe && !isLoading && <ClaudeRecipe recipe={recipe} ingredients={ingredients} nutrition={nutrition} />}
                 </>
             ) : (
                 <FavoriteRecipes />
