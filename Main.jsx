@@ -4,7 +4,7 @@ import ClaudeRecipe from "./components/ClaudeRecipe"
 import FavoriteRecipes from "./components/FavoriteRecipes"
 import HeartIcon from "./components/HeartIcon"
 import { getRecipeFromChefClaude} from "./ai"
-import { getNutritionForIngredients } from "./usda-api"
+import { getNutritionForIngredients, calculateRecipeNutrition } from "./usda-api"
 
 
 export default function Main() {
@@ -18,12 +18,17 @@ export default function Main() {
         setIsLoading(true)
         try {
             // Generate recipe and fetch nutrition data in parallel for better performance
-            const [recipeMarkdown, recipeNutrition] = await Promise.all([
+            const [recipeMarkdown, nutritionData] = await Promise.all([
                 getRecipeFromChefClaude(ingredients),
                 getNutritionForIngredients(ingredients)
             ])
             
             setRecipe(recipeMarkdown)
+            
+            // Calculate and set nutrition data
+            const recipeNutrition = nutritionData.length > 0 
+                ? calculateRecipeNutrition(nutritionData)
+                : null
             setNutrition(recipeNutrition)
             
         } catch (error) {
