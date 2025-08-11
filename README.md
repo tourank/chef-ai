@@ -4,20 +4,20 @@ An intelligent recipe generator that creates personalized recipes based on your 
 
 ![Chef Claude Demo](chef_claude_demo.gif)
 
-## ✨ Features
+## Features
 
-- 🍳 **Smart Recipe Generation** - Enter your available ingredients and get creative, personalized recipes
-- 📊 **Detailed Nutrition Facts** - Complete nutritional breakdown per serving using USDA data
-- ❤️ **Save Favorites** - Bookmark recipes with full nutrition data for easy access
-- 📱 **Responsive Design** - Seamless experience on mobile, tablet, and desktop
-- ⚡ **Parallel Processing** - Recipe and nutrition data fetched simultaneously for fast results
-- 🔒 **Secure Architecture** - API keys properly secured with serverless functions
+-  **Smart Recipe Generation** - Enter your available ingredients and get creative, personalized recipes
+-  **Detailed Nutrition Facts** - Complete nutritional breakdown per serving using USDA data
+-  **Save Favorites** - Bookmark recipes with full nutrition data for easy access
+-  **Responsive Design** - Seamless experience on mobile, tablet, and desktop
+-  **Parallel Processing** - Recipe and nutrition data fetched simultaneously for fast results
+-  **Secure Architecture** - API keys properly secured with serverless functions
 
-## 🚀 Live Demo
+## Live Demo
 
 [**Try Chef Claude**](https://your-ai-chef.netlify.app/)
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: React 18, Vite
 - **AI**: Anthropic Claude API 
@@ -26,27 +26,27 @@ An intelligent recipe generator that creates personalized recipes based on your 
 - **Storage**: Local storage for favorites
 - **Styling**: Custom CSS with responsive design
 
-## 🏗️ Architecture
+## Architecture
 
 - **Frontend → Netlify Function**: Secure Claude AI recipe generation
 - **Frontend → USDA API**: Direct nutritional data fetching (public API)
 - **Component-based**: Reusable UI components with clean separation of concerns
 
-## 🎯 How It Works
+## How It Works
 
 1. **Add Ingredients** - Enter 4+ ingredients you have available
 2. **Generate Recipe** - Claude AI creates a personalized recipe
 3. **Get Nutrition** - USDA API provides detailed nutritional breakdown
 4. **Save Favorites** - Bookmark recipes with nutrition data for later
 
-## 📊 Nutrition Features
+## Nutrition Features
 
 - Calories, macronutrients (protein, carbs, fat)
 - Micronutrients (fiber, sodium, vitamins, minerals)
 - Per-serving calculations (default: 4 servings)
 - Data sourced from USDA FoodData Central
 
-## 🔧 Development
+## Development
 
 ### Prerequisites
 - Node.js 16+
@@ -79,13 +79,13 @@ npm run dev
    - `ANTHROPIC_API_KEY` (for serverless function)
    - `VITE_USDA_API_KEY` (for frontend build)
 
-## 🔐 Security
+## Security
 
 - **Anthropic API key**: Secured in Netlify serverless function
 - **USDA API key**: Safe for client-side use (public, rate-limited API)
 - **No sensitive data exposure**: Proper separation of public/private APIs
 
-## 🎨 Key Components
+## Key Components
 
 - `ClaudeRecipe.jsx` - Recipe display with favorites functionality
 - `NutritionInfo.jsx` - Nutritional data visualization
@@ -93,7 +93,7 @@ npm run dev
 - `utils/favorites.js` - Centralized localStorage operations
 - `usda-api.js` - USDA API integration and nutrition calculations
 
-## 📝 License
+## License
 
 MIT License - feel free to use and modify!
 
